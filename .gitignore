@@ -19,6 +19,7 @@ eclipse-ivysettings.xml
 store/tmp/
 common-passwords.txt
 build.properties
+gradle.properties
 *.deb
 
 # Ignore Gradle project-specific cache directory

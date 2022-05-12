@@ -1,0 +1,83 @@
+plugins {
+// Apply the java plugin to add support for Java
+	id 'java'
+	id 'java-library'
+	id "com.diffplug.spotless" version "6.6.0"
+}
+
+repositories {
+	mavenCentral()
+	jcenter()
+	maven {
+		url 'https://nexus.bedatadriven.com/content/groups/public/'
+	}
+	maven {
+		// required for xercesImpl specific version
+		url 'https://maven.repository.redhat.com/ga/'
+	}
+	maven {
+		url 'https://zextras.jfrog.io/artifactory/public-maven-repo'
+		credentials {
+			username = "${artifactory_user}"
+			password = "${artifactory_password}"
+		}
+	}
+}
+
+spotless {
+	format 'misc', {
+		// define the files to apply `misc` to
+		target '*.gradle', '*.md', '.gitignore'
+
+		// define the steps to apply to those files
+		trimTrailingWhitespace()
+		indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+		endWithNewline()
+	}
+	java {
+		// apply a specific flavor of google-java-format
+		googleJavaFormat('1.14.0').aosp()
+	}
+}
+
+dependencies {
+	// This dependency is used by the application.
+	implementation 'junit:junit:4.8.2'
+	implementation 'xmlunit:xmlunit:1.6'
+	implementation 'org.dom4j:dom4j:2.1.1'
+	implementation 'com.google.guava:guava:28.1-jre'
+	implementation 'io.leangen.graphql:spqr:0.9.7'
+	implementation 'xerces:xercesImpl:2.9.1-patch-01'
+	implementation 'xerces:xmlParserAPIs:2.6.2'
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+	implementation 'commons-codec:commons-codec:1.7'
+	implementation 'commons-cli:commons-cli:1.2'
+	implementation 'org.freemarker:freemarker:2.3.23'
+	implementation 'log4j:log4j:1.2.16'
+	implementation 'com.fasterxml.jackson.core:jackson-core:2.10.1'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+	implementation 'com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.8.9'
+	implementation 'com.fasterxml.jackson.core:jackson-annotations:2.10.1'
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.2'
+	implementation 'org.apache.james:apache-jsieve-core:0.5'
+	implementation 'zimbra:zm-common:+'
+	implementation 'ant-contrib:ant-contrib:1.0b3'
+	implementation 'javax.xml.bind:jaxb-api:2.3.1'
+	implementation 'com.sun.xml.bind:jaxb-core:2.3.0.1'
+	implementation 'com.sun.xml.bind:jaxb-impl:2.3.1'
+	implementation 'javax.activation:activation:1.1.1'
+	implementation 'javax.annotation:javax.annotation-api:1.3.2'
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs = ['src/java']
+		}
+	}
+}
+
+tasks.withType(JavaCompile) {
+	options.compilerArgs += "-Xlint:deprecation"
+	options.encoding = "UTF-8"
+}
