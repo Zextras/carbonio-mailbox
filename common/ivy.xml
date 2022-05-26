@@ -35,7 +35,7 @@
     <dependency org="org.eclipse.jetty" name="jetty-rewrite" rev="${jetty.version}" />
     <dependency org="org.eclipse.jetty" name="jetty-util" rev="${jetty.version}" />
     <dependency org="zimbra" name="zm-native" rev="latest.integration" />
-    <dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" conf="default->master" />
+    <dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" />
     <dependency org="com.sun.activation" name="javax.activation" rev="1.2.0" />
     <dependency org="javax.annotation" name="javax.annotation-api" rev="1.3.2" />
     <dependency org="javax.xml.bind" name="jaxb-api" rev="2.3.1" />

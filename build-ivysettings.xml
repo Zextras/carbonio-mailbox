@@ -23,11 +23,13 @@
         <artifact pattern="${dev.home}/.zcs-deps/[organisation].[ext]" />
       </filesystem>
       <ibiblio name="maven" m2compatible="true"/>
+      <url name="maven-https-orgPath">
+        <artifact pattern="https://repo1.maven.org/maven2/[orgPath]/[module]/[revision]/[artifact]-[revision].[ext]" />
+      </url>
       <!-- Workaround to stop resolving if dependency does not provide jar -->
       <url name="maven-https-orgPath">
         <artifact pattern="https://repo1.maven.org/maven2/[orgPath]/[module]/[revision]/[artifact]-[revision].pom" />
       </url>
-      <!-- End of workaround -->
       <ibiblio name="maven-redhat" root="https://maven.repository.redhat.com/ga/" pattern="[organisation]/[module]/[revision]/[module]-[revision].[ext]" />
       <url name="zimbra">
         <artifact pattern="https://files.zimbra.com/repository/[module]/[artifact]-[revision].[ext]" />

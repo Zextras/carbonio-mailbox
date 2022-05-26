@@ -113,7 +113,7 @@
         <dependency org="zimbra" name="zm-client" rev="latest.integration"/>
         <dependency org="zimbra" name="zm-native" rev="latest.integration"/>
         <dependency org="org.xmlunit" name="xmlunit-core" rev="2.3.0"/>
-        <dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" conf="default->master" />
+        <dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" />
         <dependency org="io.jsonwebtoken" name="jjwt" rev="0.7.0"/>
         <dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.13.1"/>
         <dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.13.1"/>

@@ -26,7 +26,7 @@
         <dependency org="com.fasterxml.jackson.dataformat" name="jackson-dataformat-xml" rev="2.9.2" />
         <dependency org="org.apache.james" name="apache-jsieve-core" rev="0.5" />
         <dependency org="zimbra" name="zm-common" rev="latest.integration" />
-        <dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" conf="default->master" />
+        <dependency org="ant-contrib" name="ant-contrib" rev="1.0b3" />
         <dependency org="javax.xml.bind" name="jaxb-api" rev="2.3.1" />
         <dependency org="com.sun.xml.bind" name="jaxb-core" rev="2.3.0.1" />
         <dependency org="com.sun.xml.bind" name="jaxb-impl" rev="2.3.1" />
