@@ -5,26 +5,26 @@
 
 package com.zimbra.common.util;
 
-import java.io.StringReader;
-
-import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.io.StringReader;
+import org.junit.jupiter.api.Test;
 
 public class HtmlTextExtractorTest {
 
-    @Test
-    public void extract()
-    throws Exception {
-        String html = "<html><head>" +
-            "<title>Where It's At</title>" +
-            "<style>style</style>" +
-            "<script>script</script>" +
-            "</head>" +
-            "<body>I got two turntables and a microphone.</body></html>";
-        String text = HtmlTextExtractor.extract(new StringReader(html), Integer.MAX_VALUE);
-        assertTrue(text.contains("Where"));
-        assertTrue(text.contains("microphone"));
-        assertFalse(text.contains("script"));
-        assertFalse(text.contains("style"));
-    }
+  @Test
+  public void extract() throws Exception {
+    String html =
+        "<html><head>"
+            + "<title>Where It's At</title>"
+            + "<style>style</style>"
+            + "<script>script</script>"
+            + "</head>"
+            + "<body>I got two turntables and a microphone.</body></html>";
+    String text = HtmlTextExtractor.extract(new StringReader(html), Integer.MAX_VALUE);
+    assertTrue(text.contains("Where"));
+    assertTrue(text.contains("microphone"));
+    assertFalse(text.contains("script"));
+    assertFalse(text.contains("style"));
+  }
 }
