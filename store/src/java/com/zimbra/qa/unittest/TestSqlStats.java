@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Testing that {@link StatTrackingPreparedStatement} can properly track the number of SELECT,
@@ -32,7 +32,7 @@ public class TestSqlStats {
   ActivityTracker trackerPrometheus = new ActivityTracker("sql_test.prom");
   DbConnection conn;
 
-  @Before
+  @BeforeEach
   public void startup() throws Exception {
     DbPool.startup();
     conn = DbPool.getConnection();
@@ -97,7 +97,7 @@ public class TestSqlStats {
     assertEquals(expected, results);
   }
 
-  @After
+  @AfterEach
   public void shutdown() throws Exception {
     DbPool.shutdown();
   }

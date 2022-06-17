@@ -25,20 +25,20 @@ import java.util.List;
 import org.apache.http.client.utils.URIBuilder;
 import org.eclipse.jetty.http.HttpStatus;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** TODO: still relevant? */
 public class FeedManagerTest {
 
-  @Before
+  @BeforeEach
   public void setUp() {
     LC.zimbra_feed_manager_blacklist.setDefault("10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,fd00::/8");
     LC.zimbra_feed_manager_whitelist.setDefault("");
   }
 
-  @BeforeClass
+  @BeforeAll
   public static void init() throws Exception {
     MailboxTestUtil.initServer();
   }

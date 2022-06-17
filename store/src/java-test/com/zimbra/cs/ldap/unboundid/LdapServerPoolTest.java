@@ -5,64 +5,61 @@
 
 package com.zimbra.cs.ldap.unboundid;
 
-import junit.framework.Assert;
-
-import org.junit.Test;
-
 import com.unboundid.ldap.sdk.FailoverServerSet;
 import com.unboundid.ldap.sdk.SingleServerSet;
 import com.zimbra.cs.ldap.LdapConnType;
 import com.zimbra.cs.ldap.LdapServerConfig.ZimbraLdapConfig;
 import com.zimbra.cs.ldap.LdapServerType;
+import junit.framework.Assert;
+import org.junit.jupiter.api.Test;
 
 public class LdapServerPoolTest {
 
-    @Test
-    public void testLDAPICreatePool() throws Exception {
-        LdapServerPool pool = new LdapServerPool(new MockLdapiServerConfig(LdapServerType.MASTER));
-        SingleServerSet set = (SingleServerSet) pool.serverSet;
-        Assert.assertEquals("dummy_host", set.getAddress());
+  @Test
+  public void testLDAPICreatePool() throws Exception {
+    LdapServerPool pool = new LdapServerPool(new MockLdapiServerConfig(LdapServerType.MASTER));
+    SingleServerSet set = (SingleServerSet) pool.serverSet;
+    Assert.assertEquals("dummy_host", set.getAddress());
+  }
+
+  @Test
+  public void testLDAPCreatePool() throws Exception {
+    LdapServerPool pool = new LdapServerPool(new MockLdapServerConfig(LdapServerType.MASTER));
+    FailoverServerSet set = (FailoverServerSet) pool.serverSet;
+    Assert.assertTrue(set.reOrderOnFailover());
+  }
+
+  public static class MockLdapiServerConfig extends ZimbraLdapConfig {
+
+    public MockLdapiServerConfig(LdapServerType serverType) {
+      super(serverType);
     }
 
-    @Test
-    public void testLDAPCreatePool() throws Exception {
-         LdapServerPool pool = new LdapServerPool(new MockLdapServerConfig(LdapServerType.MASTER));
-         FailoverServerSet set = (FailoverServerSet) pool.serverSet;
-         Assert.assertTrue(set.reOrderOnFailover());
+    @Override
+    public String getLdapURL() {
+      return "ldapi:///";
     }
 
-    public static class MockLdapiServerConfig extends ZimbraLdapConfig {
+    @Override
+    public LdapConnType getConnType() {
+      return LdapConnType.LDAPI;
+    }
+  }
 
-        public MockLdapiServerConfig(LdapServerType serverType) {
-            super(serverType);
-        }
+  public static class MockLdapServerConfig extends ZimbraLdapConfig {
 
-        @Override
-        public String getLdapURL() {
-            return "ldapi:///";
-        }
-
-        @Override
-        public LdapConnType getConnType() {
-            return LdapConnType.LDAPI;
-        }
+    public MockLdapServerConfig(LdapServerType serverType) {
+      super(serverType);
     }
 
-    public static class MockLdapServerConfig extends ZimbraLdapConfig {
-
-        public MockLdapServerConfig(LdapServerType serverType) {
-            super(serverType);
-        }
-
-        @Override
-        public String getLdapURL() {
-            return "ldap://localhost ldap://127.0.0.1";
-        }
-
-        @Override
-        public LdapConnType getConnType() {
-            return LdapConnType.LDAPS;
-        }
+    @Override
+    public String getLdapURL() {
+      return "ldap://localhost ldap://127.0.0.1";
     }
+
+    @Override
+    public LdapConnType getConnType() {
+      return LdapConnType.LDAPS;
+    }
+  }
 }
-

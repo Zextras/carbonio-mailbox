@@ -57,11 +57,11 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimePart;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.MethodRule;
 import org.junit.rules.TestName;
 import org.mockito.MockedStatic;
@@ -76,12 +76,12 @@ public final class ContactTest {
   @Rule public TestName testName = new TestName();
   @Rule public MethodRule watchman = new ZTestWatchman();
 
-  @BeforeClass
+  @BeforeAll
   public static void init() throws Exception {
     MailboxTestUtil.initServer();
   }
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     System.out.println(testName.getMethodName());
     Provisioning prov = Provisioning.getInstance();
@@ -423,7 +423,7 @@ public final class ContactTest {
     assertTrue(errorCaught);
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
     try {
       MailboxTestUtil.clearData();

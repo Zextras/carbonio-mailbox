@@ -5,25 +5,25 @@
 
 package com.zimbra.qa.unittest.prov.ldap;
 
-import org.junit.*;
 import static org.junit.Assert.*;
 
 import com.zimbra.cs.account.Config;
 import com.zimbra.cs.account.Provisioning;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class TestLdapProvGlobalConfig extends LdapTest {
 
-    private static Provisioning prov;
-    
-    @BeforeClass
-    public static void init() throws Exception {
-        prov = new LdapProvTestUtil().getProv();
-    }
-    
-    @Test
-    public void getGlobalConfig() throws Exception {
-        Config config = prov.getConfig();
-        assertNotNull(config);
-    }
+  private static Provisioning prov;
 
+  @BeforeAll
+  public static void init() throws Exception {
+    prov = new LdapProvTestUtil().getProv();
+  }
+
+  @Test
+  public void getGlobalConfig() throws Exception {
+    Config config = prov.getConfig();
+    assertNotNull(config);
+  }
 }

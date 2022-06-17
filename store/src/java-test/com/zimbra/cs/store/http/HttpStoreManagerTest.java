@@ -5,19 +5,6 @@
 
 package com.zimbra.cs.store.http;
 
-import java.io.File;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-
 import com.google.common.io.Files;
 import com.zimbra.common.localconfig.LC;
 import com.zimbra.common.service.ServiceException;
@@ -32,123 +19,158 @@ import com.zimbra.cs.mailbox.MailboxTest;
 import com.zimbra.cs.mailbox.MailboxTestUtil;
 import com.zimbra.cs.store.StoreManager;
 import com.zimbra.cs.store.external.AbstractExternalStoreManagerTest;
+import java.io.File;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.junit.Assert;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 public class HttpStoreManagerTest extends AbstractExternalStoreManagerTest {
 
-    public static class MockHttpStoreManager extends HttpStoreManager {
-        @Override
-        protected String getGetUrl(Mailbox mbox, String locator) {
-            return MockHttpStore.URL_PREFIX + locator;
-        }
-
-        @Override
-        protected String getPostUrl(Mailbox mbox) {
-            return MockHttpStore.URL_PREFIX;
-        }
-
-        @Override
-        protected String getDeleteUrl(Mailbox mbox, String locator) {
-            return MockHttpStore.URL_PREFIX + locator;
-        }
-
-        @Override
-        protected String getLocator(HttpPost post, String postDigest, long postSize, Mailbox mbox, HttpResponse resp)
-        throws ServiceException {
-            String locator = resp.getFirstHeader("Location").getValue();
-            if (locator == null || locator.isEmpty()) {
-                throw ServiceException.FAILURE("no locator returned from POST", null);
-            } else {
-                String[] parts = locator.trim().split("/");
-                return parts[parts.length - 1];
-            }
-        }
+  public static class MockHttpStoreManager extends HttpStoreManager {
+    @Override
+    protected String getGetUrl(Mailbox mbox, String locator) {
+      return MockHttpStore.URL_PREFIX + locator;
     }
 
     @Override
-    public StoreManager getStoreManager() {
-        return new MockHttpStoreManager();
+    protected String getPostUrl(Mailbox mbox) {
+      return MockHttpStore.URL_PREFIX;
     }
 
-    File tmpDir;
-
-    @Before
-    public void setUpHttp() throws Exception {
-        MockHttpStore.startup();
-        tmpDir = Files.createTempDir();
-        LC.zimbra_tmp_directory.setDefault(tmpDir.getPath());
-        MailboxTestUtil.clearData();
+    @Override
+    protected String getDeleteUrl(Mailbox mbox, String locator) {
+      return MockHttpStore.URL_PREFIX + locator;
     }
 
-    @After
-    public void tearDownHttp() throws Exception {
-        MockHttpStore.shutdown();
-        if (tmpDir != null) {
-            FileUtil.deleteDir(tmpDir);
-        }
+    @Override
+    protected String getLocator(
+        HttpPost post, String postDigest, long postSize, Mailbox mbox, HttpResponse resp)
+        throws ServiceException {
+      String locator = resp.getFirstHeader("Location").getValue();
+      if (locator == null || locator.isEmpty()) {
+        throw ServiceException.FAILURE("no locator returned from POST", null);
+      } else {
+        String[] parts = locator.trim().split("/");
+        return parts[parts.length - 1];
+      }
     }
+  }
 
-    @Test
-    public void mailboxDelete() throws Exception {
-    	Mailbox mbox = MailboxManager.getInstance().getMailboxByAccountId(MockProvisioning.DEFAULT_ACCOUNT_ID);
-        Assert.assertEquals("start with no blobs in the store", 0, MockHttpStore.size());
+  @Override
+  public StoreManager getStoreManager() {
+    return new MockHttpStoreManager();
+  }
 
-        mbox.addMessage(null, MailboxTestUtil.generateMessage("test"), MailboxTest.STANDARD_DELIVERY_OPTIONS, null).getId();
-        Assert.assertEquals("1 blob in the store", 1, MockHttpStore.size());
+  File tmpDir;
 
-        mbox.addMessage(null, MailboxTestUtil.generateMessage("test"), MailboxTest.STANDARD_DELIVERY_OPTIONS, null).getId();
-        Assert.assertEquals("2 blobs in the store", 2, MockHttpStore.size());
+  @BeforeEach
+  public void setUpHttp() throws Exception {
+    MockHttpStore.startup();
+    tmpDir = Files.createTempDir();
+    LC.zimbra_tmp_directory.setDefault(tmpDir.getPath());
+    MailboxTestUtil.clearData();
+  }
 
-        mbox.deleteMailbox();
-        Assert.assertEquals("end with no blobs in the store", 0, MockHttpStore.size());
+  @AfterEach
+  public void tearDownHttp() throws Exception {
+    MockHttpStore.shutdown();
+    if (tmpDir != null) {
+      FileUtil.deleteDir(tmpDir);
     }
+  }
 
-    @Test
-    public void fail() throws Exception {
-        Mailbox mbox = MailboxManager.getInstance().getMailboxByAccountId(MockProvisioning.DEFAULT_ACCOUNT_ID);
-        int count = countMailItems(mbox);
-        MockHttpStore.setFail();
-        try {
-            mbox.addMessage(null, MailboxTestUtil.generateMessage("test"), MailboxTest.STANDARD_DELIVERY_OPTIONS, null).getId();
-            Assert.fail("expected exception not thrown");
-        } catch (ServiceException expected) {
+  @Test
+  public void mailboxDelete() throws Exception {
+    Mailbox mbox =
+        MailboxManager.getInstance().getMailboxByAccountId(MockProvisioning.DEFAULT_ACCOUNT_ID);
+    Assert.assertEquals("start with no blobs in the store", 0, MockHttpStore.size());
 
-        }
-        Assert.assertEquals(count, countMailItems(mbox));
-    }
+    mbox.addMessage(
+            null,
+            MailboxTestUtil.generateMessage("test"),
+            MailboxTest.STANDARD_DELIVERY_OPTIONS,
+            null)
+        .getId();
+    Assert.assertEquals("1 blob in the store", 1, MockHttpStore.size());
 
-    @Ignore("long running test")
-    @Test
-    public void timeout() throws Exception {
-        Mailbox mbox = MailboxManager.getInstance().getMailboxByAccountId(MockProvisioning.DEFAULT_ACCOUNT_ID);
-        int count = countMailItems(mbox);
-        MockHttpStore.setDelay();
-        try {
-            mbox.addMessage(null, MailboxTestUtil.generateMessage("test"), MailboxTest.STANDARD_DELIVERY_OPTIONS, null).getId();
-            Assert.fail("expected exception not thrown");
-        } catch (ServiceException expected) {
+    mbox.addMessage(
+            null,
+            MailboxTestUtil.generateMessage("test"),
+            MailboxTest.STANDARD_DELIVERY_OPTIONS,
+            null)
+        .getId();
+    Assert.assertEquals("2 blobs in the store", 2, MockHttpStore.size());
 
-        }
-        Assert.assertEquals(count, countMailItems(mbox));
-    }
+    mbox.deleteMailbox();
+    Assert.assertEquals("end with no blobs in the store", 0, MockHttpStore.size());
+  }
 
-
-    private int countMailItems(Mailbox mbox) throws ServiceException, SQLException {
-        DbConnection connection = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            connection = DbPool.getConnection();
-            stmt = connection.prepareStatement("select count(*) from " + DbMailItem.getMailItemTableName(mbox));
-            rs = stmt.executeQuery();
-            rs.next();
-            return rs.getInt(1);
-        } finally {
-            DbPool.closeResults(rs);
-            DbPool.closeStatement(stmt);
-            if (connection != null) {
-                connection.closeQuietly();
-            }
-        }
+  @Test
+  public void fail() throws Exception {
+    Mailbox mbox =
+        MailboxManager.getInstance().getMailboxByAccountId(MockProvisioning.DEFAULT_ACCOUNT_ID);
+    int count = countMailItems(mbox);
+    MockHttpStore.setFail();
+    try {
+      mbox.addMessage(
+              null,
+              MailboxTestUtil.generateMessage("test"),
+              MailboxTest.STANDARD_DELIVERY_OPTIONS,
+              null)
+          .getId();
+      Assert.fail("expected exception not thrown");
+    } catch (ServiceException expected) {
 
     }
+    Assert.assertEquals(count, countMailItems(mbox));
+  }
+
+  @Disabled("long running test")
+  @Test
+  public void timeout() throws Exception {
+    Mailbox mbox =
+        MailboxManager.getInstance().getMailboxByAccountId(MockProvisioning.DEFAULT_ACCOUNT_ID);
+    int count = countMailItems(mbox);
+    MockHttpStore.setDelay();
+    try {
+      mbox.addMessage(
+              null,
+              MailboxTestUtil.generateMessage("test"),
+              MailboxTest.STANDARD_DELIVERY_OPTIONS,
+              null)
+          .getId();
+      Assert.fail("expected exception not thrown");
+    } catch (ServiceException expected) {
+
+    }
+    Assert.assertEquals(count, countMailItems(mbox));
+  }
+
+  private int countMailItems(Mailbox mbox) throws ServiceException, SQLException {
+    DbConnection connection = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    try {
+      connection = DbPool.getConnection();
+      stmt =
+          connection.prepareStatement(
+              "select count(*) from " + DbMailItem.getMailItemTableName(mbox));
+      rs = stmt.executeQuery();
+      rs.next();
+      return rs.getInt(1);
+    } finally {
+      DbPool.closeResults(rs);
+      DbPool.closeStatement(stmt);
+      if (connection != null) {
+        connection.closeQuietly();
+      }
+    }
+  }
 }

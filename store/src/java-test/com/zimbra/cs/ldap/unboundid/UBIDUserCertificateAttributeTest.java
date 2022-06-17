@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 import com.unboundid.ldap.sdk.Attribute;
 import com.unboundid.ldap.sdk.Entry;
 import com.zimbra.common.mailbox.ContactConstants;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class UBIDUserCertificateAttributeTest {
   private String lookupAttr = ContactConstants.A_userCertificate + ";binary";

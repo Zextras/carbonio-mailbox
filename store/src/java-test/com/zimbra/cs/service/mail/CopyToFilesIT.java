@@ -40,9 +40,9 @@ import java.util.Map;
 import java.util.UUID;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimePart;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 
 /** Integration tests for CopyToFiles */
@@ -53,7 +53,7 @@ public class CopyToFilesIT {
 
   @Rule public ExpectedException exceptionRule = ExpectedException.none();
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     MailboxTestUtil.initServer();
     Provisioning prov = Provisioning.getInstance();

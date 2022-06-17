@@ -5,18 +5,16 @@
 
 package com.zimbra.cs.zimlet;
 
-import java.util.Arrays;
-import java.util.HashMap;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.MockProvisioning;
 import com.zimbra.cs.account.Provisioning;
 import com.zimbra.cs.mailbox.MailboxTestUtil;
+import java.util.Arrays;
+import java.util.HashMap;
+import org.junit.Assert;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link ZimletUserProperties}
@@ -24,29 +22,30 @@ import com.zimbra.cs.mailbox.MailboxTestUtil;
  * @author ysasaki
  */
 public final class ZimletUserPropertiesTest {
-    @BeforeClass
-    public static void init() throws Exception {
-        MailboxTestUtil.initServer();
-        Provisioning prov = Provisioning.getInstance();
-        prov.createAccount("test@zimbra.com", "secret", new HashMap<String, Object>());
-    }
+  @BeforeAll
+  public static void init() throws Exception {
+    MailboxTestUtil.initServer();
+    Provisioning prov = Provisioning.getInstance();
+    prov.createAccount("test@zimbra.com", "secret", new HashMap<String, Object>());
+  }
 
-    @Before
-    public void setUp() throws Exception {
-        MailboxTestUtil.clearData();
-    }
+  @BeforeEach
+  public void setUp() throws Exception {
+    MailboxTestUtil.clearData();
+  }
 
-    @Test
-    public void save() throws Exception {
-        Provisioning prov = Provisioning.getInstance();
-        Account account = prov.getAccount(MockProvisioning.DEFAULT_ACCOUNT_ID);
-        ZimletUserProperties prop = ZimletUserProperties.getProperties(account);
-        prop.setProperty("phone", "123123", "aaaaaaaaaaaa");
-        prop.setProperty("phone", "number", "bar");
-        prop.saveProperties(account);
+  @Test
+  public void save() throws Exception {
+    Provisioning prov = Provisioning.getInstance();
+    Account account = prov.getAccount(MockProvisioning.DEFAULT_ACCOUNT_ID);
+    ZimletUserProperties prop = ZimletUserProperties.getProperties(account);
+    prop.setProperty("phone", "123123", "aaaaaaaaaaaa");
+    prop.setProperty("phone", "number", "bar");
+    prop.saveProperties(account);
 
-        String[] values = account.getZimletUserProperties();
-        Arrays.sort(values);
-        Assert.assertArrayEquals(new String[] {"phone:123123:aaaaaaaaaaaa", "phone:number:bar"}, values);
-    }
+    String[] values = account.getZimletUserProperties();
+    Arrays.sort(values);
+    Assert.assertArrayEquals(
+        new String[] {"phone:123123:aaaaaaaaaaaa", "phone:number:bar"}, values);
+  }
 }

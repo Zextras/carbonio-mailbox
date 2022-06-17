@@ -5,13 +5,6 @@
 
 package com.zimbra.qa.unittest.prov.soap;
 
-import java.util.List;
-import java.util.Set;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.google.common.collect.Sets;
 import com.zimbra.common.soap.SoapTransport;
 import com.zimbra.cs.account.Account;
@@ -28,66 +21,92 @@ import com.zimbra.soap.account.type.DiscoverRightsInfo;
 import com.zimbra.soap.account.type.DiscoverRightsTarget;
 import com.zimbra.soap.admin.type.GranteeSelector.GranteeBy;
 import com.zimbra.soap.type.TargetBy;
+import java.util.List;
+import java.util.Set;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-public class TestGetInfo  extends SoapTest {
-    private static SoapProvTestUtil provUtil;
-    private static Provisioning prov;
-    private static Domain domain;
+public class TestGetInfo extends SoapTest {
+  private static SoapProvTestUtil provUtil;
+  private static Provisioning prov;
+  private static Domain domain;
 
-    @BeforeClass
-    public static void init() throws Exception {
-        provUtil = new SoapProvTestUtil();
-        prov = provUtil.getProv();
-        domain = provUtil.createDomain(baseDomainName());
+  @BeforeAll
+  public static void init() throws Exception {
+    provUtil = new SoapProvTestUtil();
+    prov = provUtil.getProv();
+    domain = provUtil.createDomain(baseDomainName());
+  }
+
+  @AfterAll
+  public static void cleanup() throws Exception {
+    Cleanup.deleteAll(baseDomainName());
+  }
+
+  @Test
+  public void discoverRights() throws Exception {
+    Account acct = provUtil.createAccount(genAcctNameLocalPart(), domain);
+    Group group = provUtil.createGroup(genGroupNameLocalPart(), domain, false);
+
+    prov.grantRight(
+        TargetType.domain.getCode(),
+        TargetBy.name,
+        domain.getName(),
+        GranteeType.GT_USER.getCode(),
+        GranteeBy.name,
+        acct.getName(),
+        null,
+        User.R_createDistList.getName(),
+        null);
+
+    prov.grantRight(
+        TargetType.dl.getCode(),
+        TargetBy.name,
+        group.getName(),
+        GranteeType.GT_USER.getCode(),
+        GranteeBy.name,
+        acct.getName(),
+        null,
+        User.R_sendToDistList.getName(),
+        null);
+
+    SoapTransport transport = authUser(acct.getName());
+
+    GetInfoRequest req = new GetInfoRequest();
+    req.addRight(User.R_createDistList.getName());
+    req.addRight(User.R_sendToDistList.getName());
+    GetInfoResponse resp = invokeJaxb(transport, req);
+
+    List<DiscoverRightsInfo> rightsInfo = resp.getDiscoveredRights();
+
+    Set<String> result = Sets.newHashSet();
+
+    for (DiscoverRightsInfo rightInfo : rightsInfo) {
+      String right = rightInfo.getRight();
+      List<DiscoverRightsTarget> targets = rightInfo.getTargets();
+
+      for (DiscoverRightsTarget target : targets) {
+        String id = target.getId();
+        String name = target.getName();
+        String type = target.getType().toString();
+
+        result.add(Verify.makeResultStr(right, id, name, type));
+      }
     }
 
-    @AfterClass
-    public static void cleanup() throws Exception {
-        Cleanup.deleteAll(baseDomainName());
-    }
-
-    @Test
-    public void discoverRights() throws Exception {
-        Account acct = provUtil.createAccount(genAcctNameLocalPart(), domain);
-        Group group = provUtil.createGroup(genGroupNameLocalPart(), domain, false);
-
-        prov.grantRight(TargetType.domain.getCode(), TargetBy.name, domain.getName(),
-                GranteeType.GT_USER.getCode(), GranteeBy.name, acct.getName(), null,
-                User.R_createDistList.getName(), null);
-
-        prov.grantRight(TargetType.dl.getCode(), TargetBy.name, group.getName(),
-                GranteeType.GT_USER.getCode(), GranteeBy.name, acct.getName(), null,
-                User.R_sendToDistList.getName(), null);
-
-        SoapTransport transport = authUser(acct.getName());
-
-        GetInfoRequest req = new GetInfoRequest();
-        req.addRight(User.R_createDistList.getName());
-        req.addRight(User.R_sendToDistList.getName());
-        GetInfoResponse resp = invokeJaxb(transport, req);
-
-        List<DiscoverRightsInfo> rightsInfo = resp.getDiscoveredRights();
-
-        Set<String> result = Sets.newHashSet();
-
-        for (DiscoverRightsInfo rightInfo : rightsInfo) {
-            String right = rightInfo.getRight();
-            List<DiscoverRightsTarget> targets = rightInfo.getTargets();
-
-            for (DiscoverRightsTarget target : targets) {
-                String id = target.getId();
-                String name = target.getName();
-                String type = target.getType().toString();
-
-                result.add(Verify.makeResultStr(right, id, name, type));
-            }
-        }
-
-        Verify.verifyEquals(
-                Sets.newHashSet(
-                        Verify.makeResultStr(User.R_createDistList.getName(), domain.getId(), domain.getName(), TargetType.domain.getCode()),
-                        Verify.makeResultStr(User.R_sendToDistList.getName(), group.getId(), group.getName(), TargetType.dl.getCode())),
-                result);
-    }
-
+    Verify.verifyEquals(
+        Sets.newHashSet(
+            Verify.makeResultStr(
+                User.R_createDistList.getName(),
+                domain.getId(),
+                domain.getName(),
+                TargetType.domain.getCode()),
+            Verify.makeResultStr(
+                User.R_sendToDistList.getName(),
+                group.getId(),
+                group.getName(),
+                TargetType.dl.getCode())),
+        result);
+  }
 }

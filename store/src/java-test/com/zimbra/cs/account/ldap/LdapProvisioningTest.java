@@ -1,5 +1,7 @@
 package com.zimbra.cs.account.ldap;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.zimbra.common.service.ServiceException;
 import com.zimbra.cs.account.Account;
 import com.zimbra.cs.account.AccountServiceException;
@@ -7,14 +9,14 @@ import com.zimbra.cs.account.Provisioning;
 import com.zimbra.cs.mailbox.MailboxTestUtil;
 import java.util.HashMap;
 import java.util.UUID;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /** Unit test for {@link LdapProvisioning}. */
 public class LdapProvisioningTest {
 
-  @BeforeClass
+  @BeforeAll
   public static void init() throws Exception {
     MailboxTestUtil.initServer();
     Provisioning prov = Provisioning.getInstance();
@@ -47,7 +49,7 @@ public class LdapProvisioningTest {
     prov.createAccount("milano@lamborghini-europe.com", "testpassword", exampleAccountAttrs3);
   }
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     MailboxTestUtil.clearData();
   }
@@ -59,7 +61,7 @@ public class LdapProvisioningTest {
    *
    * @throws ServiceException
    */
-  @Test(expected = AccountServiceException.class)
+  @Test
   public void shouldFindPersonalDataInPassword() throws ServiceException {
 
     Account acct = Provisioning.getInstance().getAccount("natalie.leesa@example.com");
@@ -70,7 +72,9 @@ public class LdapProvisioningTest {
     };
     for (String testPassword : testPasswords) {
       String passwordLower = testPassword.toLowerCase();
-      LdapProvisioning.validatePasswordEntropyForPersonalData(passwordLower, acct);
+      assertThrows(
+          AccountServiceException.class,
+          () -> LdapProvisioning.validatePasswordEntropyForPersonalData(passwordLower, acct));
     }
   }
 
@@ -81,19 +85,27 @@ public class LdapProvisioningTest {
    *
    * @throws ServiceException
    */
-  @Test(expected = AccountServiceException.class)
+  @Test
   public void shouldFindPersonalDataInPasswordForDotLessDomainsEmails() throws ServiceException {
 
     Account acct = Provisioning.getInstance().getAccount("milano@lamborghini");
 
     // fake passwords for test against created user account
     String[] testPasswords = {
-      "milano", "Lamborghini123", "Milano34", "lamborghini01", "Milano.Lamborghini", "lAmbOrgHini", "2022cars"
+      "milano",
+      "Lamborghini123",
+      "Milano34",
+      "lamborghini01",
+      "Milano.Lamborghini",
+      "lAmbOrgHini",
+      "2022cars"
     };
 
     for (String testPassword : testPasswords) {
       String passwordLower = testPassword.toLowerCase();
-      LdapProvisioning.validatePasswordEntropyForPersonalData(passwordLower, acct);
+      assertThrows(
+          AccountServiceException.class,
+          () -> LdapProvisioning.validatePasswordEntropyForPersonalData(passwordLower, acct));
     }
   }
 
@@ -104,19 +116,20 @@ public class LdapProvisioningTest {
    *
    * @throws ServiceException
    */
-  @Test(expected = AccountServiceException.class)
-  public void shouldFindPersonalDataInPasswordForDomainsContainingSpecialChars() throws ServiceException {
+  @Test
+  public void shouldFindPersonalDataInPasswordForDomainsContainingSpecialChars()
+      throws ServiceException {
 
     Account acct = Provisioning.getInstance().getAccount("milano@lamborghini-europe.com");
 
     // fake passwords for test against created user account
-    String[] testPasswords = {
-        "Adjbiuhkl2022europe", "Lamborghini123"
-    };
+    String[] testPasswords = {"Adjbiuhkl2022europe", "Lamborghini123"};
 
     for (String testPassword : testPasswords) {
       String passwordLower = testPassword.toLowerCase();
-      LdapProvisioning.validatePasswordEntropyForPersonalData(passwordLower, acct);
+      assertThrows(
+          AccountServiceException.class,
+          () -> LdapProvisioning.validatePasswordEntropyForPersonalData(passwordLower, acct));
     }
   }
 }

@@ -6,7 +6,7 @@
 package com.zimbra.cs.index.query;
 
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Unit test for {@link SenderQuery}.
@@ -15,16 +15,19 @@ import org.junit.Test;
  */
 public final class SenderQueryTest {
 
-    @Test
-    public void comparison() throws Exception {
-        Assert.assertEquals("<DB[FROM:(>\"test@zimbra.com\") ]>",
-                SenderQuery.create(null, ">test@zimbra.com").compile(null, true).toString());
-        Assert.assertEquals("<DB[FROM:(>=\"test@zimbra.com\") ]>",
-                SenderQuery.create(null, ">=test@zimbra.com").compile(null, true).toString());
-        Assert.assertEquals("<DB[FROM:(<\"test@zimbra.com\") ]>",
-                SenderQuery.create(null, "<test@zimbra.com").compile(null, true).toString());
-        Assert.assertEquals("<DB[FROM:(<=\"test@zimbra.com\") ]>",
-                SenderQuery.create(null, "<=test@zimbra.com").compile(null, true).toString());
-    }
-
+  @Test
+  public void comparison() throws Exception {
+    Assert.assertEquals(
+        "<DB[FROM:(>\"test@zimbra.com\") ]>",
+        SenderQuery.create(null, ">test@zimbra.com").compile(null, true).toString());
+    Assert.assertEquals(
+        "<DB[FROM:(>=\"test@zimbra.com\") ]>",
+        SenderQuery.create(null, ">=test@zimbra.com").compile(null, true).toString());
+    Assert.assertEquals(
+        "<DB[FROM:(<\"test@zimbra.com\") ]>",
+        SenderQuery.create(null, "<test@zimbra.com").compile(null, true).toString());
+    Assert.assertEquals(
+        "<DB[FROM:(<=\"test@zimbra.com\") ]>",
+        SenderQuery.create(null, "<=test@zimbra.com").compile(null, true).toString());
+  }
 }

@@ -8,8 +8,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author zimbra
@@ -24,7 +24,7 @@ public class NioImapRequestTest {
   /**
    * @throws java.lang.Exception
    */
-  @After
+  @AfterEach
   public void tearDown() throws Exception {}
 
   /** Test method for {@link com.zimbra.cs.imap.NioImapRequest#checkSize(long)}. */

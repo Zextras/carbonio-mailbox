@@ -5,7 +5,6 @@
         <include file="../ivy-configuration.xml"/>
     </configurations>
     <dependencies>
-        <dependency org="junit" name="junit" rev="4.8.2" conf="test->default"/>
         <dependency org="org.junit.jupiter" name="junit-jupiter" rev="5.8.2" conf="test->default"/>
         <dependency org="org.junit.vintage" name="junit-vintage-engine" rev="5.8.2" conf="test->default"/>
         <dependency org="xmlunit" name="xmlunit" rev="1.6" />

@@ -35,10 +35,10 @@ import com.zimbra.soap.type.SearchHit;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.MethodRule;
 import org.junit.rules.TestName;
 import org.mockito.MockedStatic;
@@ -48,7 +48,7 @@ public class SearchActionTest {
   @Rule public TestName testName = new TestName();
   @Rule public MethodRule watchman = new ZTestWatchman();
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     System.out.println(testName.getMethodName());
     MailboxTestUtil.initServer();
@@ -153,7 +153,7 @@ public class SearchActionTest {
     assertEquals(true, message2.isUnread());
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
     try {
       MailboxTestUtil.clearData();

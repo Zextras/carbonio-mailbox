@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.mail.Address;
 import javax.mail.internet.InternetAddress;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
 public class CalendarRequestTest {
@@ -51,7 +51,7 @@ public class CalendarRequestTest {
   /**
    * @throws java.lang.Exception
    */
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     Field lock = Mailbox.class.getDeclaredField("lock");
     lock.setAccessible(true);

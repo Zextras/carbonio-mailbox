@@ -37,9 +37,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.util.URIUtil;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PreviewServletTest {
 
@@ -62,12 +62,12 @@ public class PreviewServletTest {
     return response.getElement(AccountConstants.E_AUTH_TOKEN).getText();
   }
 
-  @AfterClass
+  @AfterAll
   public static void tearDown() throws Exception {
     MailboxTestUtil.clearData();
   }
 
-  @Before
+  @BeforeEach
   public void init() throws Exception {
     MailboxTestUtil.initServer();
     Provisioning prov = Provisioning.getInstance();
@@ -77,7 +77,7 @@ public class PreviewServletTest {
     prov.createAccount("test@zimbra.com", "secret", attrs);
   }
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     MailboxTestUtil.clearData();
   }

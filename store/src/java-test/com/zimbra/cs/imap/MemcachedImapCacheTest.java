@@ -17,10 +17,10 @@ import com.zimbra.cs.memcached.MemcachedConnector;
 import com.zimbra.cs.util.ZTestWatchman;
 import java.io.ObjectOutputStream;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.MethodRule;
 import org.junit.rules.TestName;
 
@@ -34,7 +34,7 @@ public class MemcachedImapCacheTest {
   /**
    * @throws java.lang.Exception
    */
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     MailboxTestUtil.initProvisioning("./");
   }
@@ -42,7 +42,7 @@ public class MemcachedImapCacheTest {
   /**
    * @throws java.lang.Exception
    */
-  @After
+  @AfterEach
   public void tearDown() throws Exception {}
 
   @Test

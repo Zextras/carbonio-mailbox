@@ -5,49 +5,51 @@
 
 package com.zimbra.cs.mailbox;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.HashMap;
-
-import junit.framework.Assert;
-
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import com.zimbra.cs.account.MockProvisioning;
 import com.zimbra.cs.account.Provisioning;
 import com.zimbra.cs.mime.ParsedDocument;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.HashMap;
+import junit.framework.Assert;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class RenameTest {
-    private Mailbox mbox;
-    private Folder folder;
-    private MailItem doc;
+  private Mailbox mbox;
+  private Folder folder;
+  private MailItem doc;
 
-    @BeforeClass
-    public static void init() throws Exception {
-        MailboxTestUtil.initServer();
-        Provisioning prov = Provisioning.getInstance();
-        prov.createAccount("test@zimbra.com", "secret", new HashMap<String, Object>());
-    }
+  @BeforeAll
+  public static void init() throws Exception {
+    MailboxTestUtil.initServer();
+    Provisioning prov = Provisioning.getInstance();
+    prov.createAccount("test@zimbra.com", "secret", new HashMap<String, Object>());
+  }
 
-    @Before
-    public void setUp() throws Exception {
-        MailboxTestUtil.clearData();
-        mbox = MailboxManager.getInstance().getMailboxByAccountId(MockProvisioning.DEFAULT_ACCOUNT_ID);
-        folder = mbox.createFolder(null, "/Briefcase/f", new Folder.FolderOptions().setDefaultView(MailItem.Type.DOCUMENT));
-        InputStream in = new ByteArrayInputStream("This is a document".getBytes());
-        ParsedDocument pd = new ParsedDocument(in, "doc.txt", "text/plain", System.currentTimeMillis(), null, null);
-        doc = mbox.createDocument(null, folder.getId(), pd, MailItem.Type.DOCUMENT, 0);
-    }
+  @BeforeEach
+  public void setUp() throws Exception {
+    MailboxTestUtil.clearData();
+    mbox = MailboxManager.getInstance().getMailboxByAccountId(MockProvisioning.DEFAULT_ACCOUNT_ID);
+    folder =
+        mbox.createFolder(
+            null,
+            "/Briefcase/f",
+            new Folder.FolderOptions().setDefaultView(MailItem.Type.DOCUMENT));
+    InputStream in = new ByteArrayInputStream("This is a document".getBytes());
+    ParsedDocument pd =
+        new ParsedDocument(in, "doc.txt", "text/plain", System.currentTimeMillis(), null, null);
+    doc = mbox.createDocument(null, folder.getId(), pd, MailItem.Type.DOCUMENT, 0);
+  }
 
-    @Test
-    public void renameModContentTest() throws Exception {
-        int id = doc.getId();
-        int mod_content = doc.getSavedSequence();
-        mbox.rename(null, id, doc.getType(), "newdoc.txt", folder.getId());
-        mbox.purge(MailItem.Type.UNKNOWN);
-        MailItem newdoc = mbox.getItemById(null, id, MailItem.Type.UNKNOWN, false);
-        Assert.assertEquals(mod_content, newdoc.getSavedSequence());
-    }
+  @Test
+  public void renameModContentTest() throws Exception {
+    int id = doc.getId();
+    int mod_content = doc.getSavedSequence();
+    mbox.rename(null, id, doc.getType(), "newdoc.txt", folder.getId());
+    mbox.purge(MailItem.Type.UNKNOWN);
+    MailItem newdoc = mbox.getItemById(null, id, MailItem.Type.UNKNOWN, false);
+    Assert.assertEquals(mod_content, newdoc.getSavedSequence());
+  }
 }

@@ -18,12 +18,12 @@ import com.zimbra.cs.mime.ParsedMessage;
 import com.zimbra.cs.store.Blob;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class ZimbraMailAdapterTest {
 
-  @BeforeClass
+  @BeforeAll
   public static void init() throws Exception {
     MailboxTestUtil.initServer();
   }

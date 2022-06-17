@@ -1,25 +1,23 @@
 package com.zimbra.cs.account.auth;
 
-
 import static org.junit.Assert.*;
 
 import com.zimbra.cs.account.Account;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ZimbraCustomAuthTest {
 
-  /**
-   * A Custom Auth class for testing purposes.
-   */
+  /** A Custom Auth class for testing purposes. */
   private class TestCustomAuth extends ZimbraCustomAuth {
 
     @Override
-    public void authenticate(Account acct, String password, Map<String, Object> context,
-        List<String> args) throws Exception {
-        // Huh, I do nothing.
+    public void authenticate(
+        Account acct, String password, Map<String, Object> context, List<String> args)
+        throws Exception {
+      // Huh, I do nothing.
     }
   }
 

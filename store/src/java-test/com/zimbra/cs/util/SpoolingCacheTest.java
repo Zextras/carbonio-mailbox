@@ -5,66 +5,61 @@
 
 package com.zimbra.cs.util;
 
+import com.zimbra.common.localconfig.LC;
 import java.io.File;
 import java.io.IOException;
-
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.zimbra.common.localconfig.LC;
-import com.zimbra.cs.util.SpoolingCache;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class SpoolingCacheTest {
 
-    @BeforeClass
-    public static void init() throws Exception {
-        new File("build/test").mkdirs();
-        LC.zimbra_tmp_directory.setDefault("build/test");
+  @BeforeAll
+  public static void init() throws Exception {
+    new File("build/test").mkdirs();
+    LC.zimbra_tmp_directory.setDefault("build/test");
+  }
+
+  @AfterAll
+  public static void destroy() throws Exception {
+    new File("build/test").delete();
+  }
+
+  private static final String[] STRINGS = new String[] {"foo", "bar", "baz"};
+
+  private void test(SpoolingCache<String> scache, boolean shouldSpool) throws IOException {
+    for (String v : STRINGS) {
+      scache.add(v);
     }
 
-    @AfterClass
-    public static void destroy() throws Exception {
-        new File("build/test").delete();
+    Assert.assertEquals("spooled", shouldSpool, scache.isSpooled());
+    Assert.assertEquals("entry count matches", STRINGS.length, scache.size());
+    int i = 0;
+    for (String v : scache) {
+      Assert.assertEquals("entry matched: #" + i, STRINGS[i++], v);
     }
+    Assert.assertEquals("correct number of items iterated", STRINGS.length, i);
+  }
 
-    private static final String[] STRINGS = new String[] { "foo", "bar", "baz" };
+  @Test
+  public void memory() throws Exception {
+    SpoolingCache<String> scache = new SpoolingCache<String>(STRINGS.length + 3);
+    test(scache, false);
+    scache.cleanup();
+  }
 
-    private void test(SpoolingCache<String> scache, boolean shouldSpool) throws IOException {
-        for (String v : STRINGS) {
-            scache.add(v);
-        }
+  @Test
+  public void disk() throws Exception {
+    SpoolingCache<String> scache = new SpoolingCache<String>(0);
+    test(scache, true);
+    scache.cleanup();
+  }
 
-        Assert.assertEquals("spooled", shouldSpool, scache.isSpooled());
-        Assert.assertEquals("entry count matches", STRINGS.length, scache.size());
-        int i = 0;
-        for (String v : scache) {
-            Assert.assertEquals("entry matched: #" + i, STRINGS[i++], v);
-        }
-        Assert.assertEquals("correct number of items iterated", STRINGS.length, i);
-
-    }
-
-    @Test
-    public void memory() throws Exception {
-        SpoolingCache<String> scache = new SpoolingCache<String>(STRINGS.length + 3);
-        test(scache, false);
-        scache.cleanup();
-    }
-
-    @Test
-    public void disk() throws Exception {
-        SpoolingCache<String> scache = new SpoolingCache<String>(0);
-        test(scache, true);
-        scache.cleanup();
-    }
-
-    @Test
-    public void both() throws Exception {
-        SpoolingCache<String> scache = new SpoolingCache<String>(1);
-        test(scache, true);
-        scache.cleanup();
-    }
-
+  @Test
+  public void both() throws Exception {
+    SpoolingCache<String> scache = new SpoolingCache<String>(1);
+    test(scache, true);
+    scache.cleanup();
+  }
 }

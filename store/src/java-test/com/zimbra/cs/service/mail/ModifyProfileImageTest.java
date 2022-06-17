@@ -32,10 +32,10 @@ import javax.mail.Address;
 import javax.mail.internet.MimeMessage;
 import junit.framework.Assert;
 import org.apache.commons.io.IOUtils;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.MethodRule;
 import org.junit.rules.TestName;
 
@@ -44,7 +44,7 @@ public class ModifyProfileImageTest {
   @Rule public TestName testName = new TestName();
   @Rule public MethodRule watchman = new ZTestWatchman();
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     System.out.println(testName.getMethodName());
     MailboxTestUtil.initServer();
@@ -155,7 +155,7 @@ public class ModifyProfileImageTest {
     Assert.assertEquals(null, attrMap1.get(ZAttrProvisioning.A_thumbnailPhoto));
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
     try {
       MailboxTestUtil.clearData();
