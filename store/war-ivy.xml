@@ -1,148 +1,83 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- This module contains dependencies for WAR. -->
 <ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
- <info organisation="zimbra" module="zm-store-war" status="integration"/>
- <configurations>
-  <include file="../ivy-configuration.xml"/>
- </configurations>
+  <info organisation="zimbra" module="zm-store-war" status="integration"/>
+  <configurations>
+    <include file="../ivy-configuration.xml"/>
+  </configurations>
   <dependencies>
-    <dependency org="org.slf4j" name="slf4j-api" rev="1.7.30"
-    />
-    <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.30"
-    />
-    <dependency org="org.apache.james" name="apache-jsieve-core" rev="0.5"
-    />
-    <dependency org="org.apache.lucene" name="lucene-core" rev="3.5.0"
-    />
-    <dependency org="org.apache.lucene" name="lucene-analyzers" rev="3.5.0"
-    />
-    <dependency org="org.apache.lucene" name="lucene-smartcn" rev="3.5.0"
-    />
-    <dependency org="ant-tar-patched" name="ant-tar-patched" rev="1.0"
-    />
-    <dependency org="org.apache.mina" name="mina-core" rev="2.0.4"
-    />
-    <dependency org="zimbra" name="zm-ews-stub" rev="2.0"
-    />
-    <dependency org="org.apache.zookeeper" name="zookeeper" rev="3.4.5"
-    />
-    <dependency org="com.101tec" name="zkclient" rev="0.1.0"
-    />
-    <dependency org="org.apache.curator" name="curator-recipes" rev="2.0.1-incubating"
-    />
-    <dependency org="org.apache.curator" name="curator-client" rev="2.0.1-incubating"
-    />
-    <dependency org="org.apache.curator" name="curator-x-discovery" rev="2.0.1-incubating"
-    />
-    <dependency org="org.apache.curator" name="curator-framework" rev="2.0.1-incubating"
-    />
+    <dependency org="org.slf4j" name="slf4j-api" rev="1.7.30"/>
+    <dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.30"/>
+    <dependency org="org.apache.james" name="apache-jsieve-core" rev="0.5"/>
+    <dependency org="org.apache.lucene" name="lucene-core" rev="3.5.0"/>
+    <dependency org="org.apache.lucene" name="lucene-analyzers" rev="3.5.0"/>
+    <dependency org="org.apache.lucene" name="lucene-smartcn" rev="3.5.0"/>
+    <dependency org="ant-tar-patched" name="ant-tar-patched" rev="1.0"/>
+    <dependency org="org.apache.mina" name="mina-core" rev="2.0.4"/>
+    <dependency org="zimbra" name="zm-ews-stub" rev="2.0"/>
+    <dependency org="org.apache.zookeeper" name="zookeeper" rev="3.4.5"/>
+    <dependency org="com.101tec" name="zkclient" rev="0.1.0"/>
+    <dependency org="org.apache.curator" name="curator-recipes" rev="2.0.1-incubating"/>
+    <dependency org="org.apache.curator" name="curator-client" rev="2.0.1-incubating"/>
+    <dependency org="org.apache.curator" name="curator-x-discovery" rev="2.0.1-incubating"/>
+    <dependency org="org.apache.curator" name="curator-framework" rev="2.0.1-incubating"/>
     <dependency org="asm" name="asm" rev="3.3.1"/>
     <dependency org="oauth" name="oauth" rev="1.4"/>
-    <dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.7"
-    />
-    <dependency org="org.w3c.css" name="sac" rev="1.3"
-    />
-    <dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.9"
-    />
-    <dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.8"
-    />
-    <dependency org="org.springframework" name="spring-aop" rev="5.1.10.RELEASE"
-    />
-    <dependency org="org.springframework" name="spring-beans" rev="5.1.10.RELEASE"
-    />
-    <dependency org="org.springframework" name="spring-context" rev="5.1.10.RELEASE"
-    />
-    <dependency org="org.springframework" name="spring-core" rev="5.1.10.RELEASE"
-    />
-    <dependency org="org.springframework" name="spring-expression" rev="5.1.10.RELEASE"
-    />
-    <dependency org="org.apache.ws.xmlschema" name="xmlschema-core" rev="2.0.3"
-    />
-    <dependency org="org.apache.cxf" name="cxf-core" rev="3.3.4"
-    />
-    <dependency org="org.apache.cxf" name="cxf-rt-bindings-soap" rev="3.3.4"
-    />
-    <dependency org="org.apache.cxf" name="cxf-rt-frontend-jaxws" rev="3.3.4"
-    />
-    <dependency org="org.apache.cxf" name="cxf-rt-transports-http" rev="3.3.4"
-    />
-    <dependency org="org.apache.cxf" name="cxf-rt-frontend-simple" rev="3.3.4"
-    />
-    <dependency org="org.apache.cxf" name="cxf-rt-databinding-jaxb" rev="3.3.4"
-    />
-    <dependency org="org.apache.cxf" name="cxf-rt-wsdl" rev="3.3.4"
-    />
-    <dependency org="org.codehaus.woodstox" name="stax2-api" rev="3.1.1"
-    />
-    <dependency org="javax.ws.rs" name="javax.ws.rs-api" rev="2.0-m10"
-    />
-    <dependency org="org.apache.neethi" name="neethi" rev="3.0.2"
-    />
-    <dependency org="org.codehaus.woodstox" name="woodstox-core-asl" rev="4.2.0"
-    />
-    <dependency org="wsdl4j" name="wsdl4j" rev="1.6.3"
-    />
-    <dependency org="org.objenesis" name="objenesis" rev="2.1"
-    />
-    <dependency org="com.sun.jersey" name="jersey-client" rev="1.11"
-    />
-    <dependency org="com.sun.jersey" name="jersey-core" rev="1.11"
-    />
-    <dependency org="com.sun.jersey" name="jersey-json" rev="1.11"
-    />
-    <dependency org="com.sun.jersey" name="jersey-servlet" rev="1.11"
-    />
+    <dependency org="org.apache.xmlgraphics" name="batik-css" rev="1.7"/>
+    <dependency org="org.w3c.css" name="sac" rev="1.3"/>
+    <dependency org="org.apache.xmlgraphics" name="batik-i18n" rev="1.9"/>
+    <dependency org="org.apache.xmlgraphics" name="batik-util" rev="1.8"/>
+    <dependency org="org.springframework" name="spring-aop" rev="5.1.10.RELEASE"/>
+    <dependency org="org.springframework" name="spring-beans" rev="5.1.10.RELEASE"/>
+    <dependency org="org.springframework" name="spring-context" rev="5.1.10.RELEASE"/>
+    <dependency org="org.springframework" name="spring-core" rev="5.1.10.RELEASE"/>
+    <dependency org="org.springframework" name="spring-expression" rev="5.1.10.RELEASE"/>
+    <dependency org="org.apache.ws.xmlschema" name="xmlschema-core" rev="2.0.3"/>
+    <dependency org="org.apache.cxf" name="cxf-core" rev="3.3.4"/>
+    <dependency org="org.apache.cxf" name="cxf-rt-bindings-soap" rev="3.3.4"/>
+    <dependency org="org.apache.cxf" name="cxf-rt-frontend-jaxws" rev="3.3.4"/>
+    <dependency org="org.apache.cxf" name="cxf-rt-transports-http" rev="3.3.4"/>
+    <dependency org="org.apache.cxf" name="cxf-rt-frontend-simple" rev="3.3.4"/>
+    <dependency org="org.apache.cxf" name="cxf-rt-databinding-jaxb" rev="3.3.4"/>
+    <dependency org="org.apache.cxf" name="cxf-rt-wsdl" rev="3.3.4"/>
+    <dependency org="org.codehaus.woodstox" name="stax2-api" rev="3.1.1"/>
+    <dependency org="javax.ws.rs" name="javax.ws.rs-api" rev="2.0-m10"/>
+    <dependency org="org.apache.neethi" name="neethi" rev="3.0.2"/>
+    <dependency org="org.codehaus.woodstox" name="woodstox-core-asl" rev="4.2.0"/>
+    <dependency org="wsdl4j" name="wsdl4j" rev="1.6.3"/>
+    <dependency org="org.objenesis" name="objenesis" rev="2.1"/>
+    <dependency org="com.sun.jersey" name="jersey-client" rev="1.11"/>
+    <dependency org="com.sun.jersey" name="jersey-core" rev="1.11"/>
+    <dependency org="com.sun.jersey" name="jersey-json" rev="1.11"/>
+    <dependency org="com.sun.jersey" name="jersey-servlet" rev="1.11"/>
     <dependency org="com.sun.jersey" name="jersey-server" rev="1.11"/>
     <dependency org="com.sun.jersey.contribs" name="jersey-multipart" rev="1.12"/>
-    <dependency org="javax.jws" name="jsr181-api" rev="1.0-MR1"
-    />
-    <dependency org="org.ehcache" name="ehcache" rev="3.1.2"
-    />
-    <dependency org="javax.ws.rs" name="jsr311-api" rev="1.1.1"
-    />
-    <dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.13.1"
-    />
-    <dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.13.1"
-    />
-    <dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.13.1"
-    />
-    <dependency org="com.fasterxml.jackson.dataformat" name="jackson-dataformat-smile" rev="2.13.1"
-    />
-    <dependency org="com.fasterxml.jackson.module" name="jackson-module-jaxb-annotations" rev="2.13.1"
-    />
-    <dependency org="io.jsonwebtoken" name="jjwt" rev="0.7.0"
-    />
-    <dependency org="org.apache.commons" name="commons-text" rev="1.1"
-    />
-    <dependency org="org.apache.commons" name="commons-lang3" rev="3.7"
-    />
-    <dependency org="org.apache.commons" name="commons-rng-client-api" rev="1.0"
-    />
-    <dependency org="org.apache.commons" name="commons-rng-core" rev="1.0"
-    />
-    <dependency org="org.apache.commons" name="commons-rng-simple" rev="1.0"
-    />
-    <dependency org="io.leangen.graphql" name="spqr" rev="0.9.7"
-    />
-    <dependency org="io.leangen.geantyref" name="geantyref" rev="1.3.4"
-    />
-    <dependency org="com.graphql-java" name="graphql-java" rev="9.0"
-    />
-    <dependency org="org.reactivestreams" name="reactive-streams" rev="1.0.2"
-    />
-    <dependency org="org.antlr" name="antlr4-runtime" rev="4.7.1"
-    />
-    <dependency org="org.eclipse.jetty" name="jetty-servlets" rev="9.4.44.v20210927"
-    />
-    <dependency org="org.eclipse.jetty" name="jetty-servlet" rev="9.4.44.v20210927"
-    />
-    <dependency org="org.tukaani" name="xz" rev="1.8"
-    />
-    <dependency org="org.apache.commons" name="commons-compress" rev="1.20"
-    />
-    <dependency org="com.zextras.carbonio.files" name="carbonio-files-sdk" rev="0.0.3"
-    />
-    <dependency org="com.zextras.carbonio.preview" name="carbonio-preview-sdk" rev="0.2.3"
-    />
+    <dependency org="javax.jws" name="jsr181-api" rev="1.0-MR1"/>
+    <dependency org="org.ehcache" name="ehcache" rev="3.1.2"/>
+    <dependency org="javax.ws.rs" name="jsr311-api" rev="1.1.1"/>
+    <dependency org="com.fasterxml.jackson.core" name="jackson-core" rev="2.13.1"/>
+    <dependency org="com.fasterxml.jackson.core" name="jackson-annotations" rev="2.13.1"/>
+    <dependency org="com.fasterxml.jackson.core" name="jackson-databind" rev="2.13.1"/>
+    <dependency org="com.fasterxml.jackson.dataformat" name="jackson-dataformat-smile" rev="2.13.1"/>
+    <dependency org="com.fasterxml.jackson.module" name="jackson-module-jaxb-annotations"
+      rev="2.13.1"/>
+    <dependency org="io.jsonwebtoken" name="jjwt" rev="0.7.0"/>
+    <dependency org="org.apache.commons" name="commons-text" rev="1.1"/>
+    <dependency org="org.apache.commons" name="commons-lang3" rev="3.7"/>
+    <dependency org="org.apache.commons" name="commons-rng-client-api" rev="1.0"/>
+    <dependency org="org.apache.commons" name="commons-rng-core" rev="1.0"/>
+    <dependency org="org.apache.commons" name="commons-rng-simple" rev="1.0"/>
+    <dependency org="io.leangen.graphql" name="spqr" rev="0.9.7"/>
+    <dependency org="io.leangen.geantyref" name="geantyref" rev="1.3.4"/>
+    <dependency org="com.graphql-java" name="graphql-java" rev="9.0"/>
+    <dependency org="org.reactivestreams" name="reactive-streams" rev="1.0.2"/>
+    <dependency org="org.antlr" name="antlr4-runtime" rev="4.7.1"/>
+    <dependency org="org.eclipse.jetty" name="jetty-servlets" rev="9.4.44.v20210927"/>
+    <dependency org="org.eclipse.jetty" name="jetty-servlet" rev="9.4.44.v20210927"/>
+    <dependency org="org.tukaani" name="xz" rev="1.8"/>
+    <dependency org="org.apache.commons" name="commons-compress" rev="1.20"/>
+    <dependency org="com.zextras.carbonio.files" name="carbonio-files-sdk" rev="0.0.3"/>
+    <dependency org="com.zextras.carbonio.preview" name="carbonio-preview-sdk" rev="0.2.3"/>
   </dependencies>
 </ivy-module>
