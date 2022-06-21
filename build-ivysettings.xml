@@ -24,11 +24,6 @@
       </filesystem>
       <ibiblio name="maven" m2compatible="true"/>
       <ibiblio name="maven-redhat" root="https://maven.repository.redhat.com/ga/" pattern="[organisation]/[module]/[revision]/[module]-[revision].[ext]" />
-      <ibiblio
-        name="jboss"
-        m2compatible="true"
-        root="https://repository.jboss.org/nexus/content/groups/public"
-        pattern="[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]" />
       <url name="zimbra">
         <artifact pattern="https://files.zimbra.com/repository/[module]/[artifact]-[revision].[ext]" />
         <artifact pattern="https://files.zimbra.com/repository/[module]/[artifact].[ext]" />

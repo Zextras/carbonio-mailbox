@@ -273,7 +273,7 @@
   <target name="war" depends="jar,set-dev-version">
     <delete dir="${build.tmp.dir}" />
     <!-- Resolve store dependencies -->
-    <ivy:resolve file="ivy.xml" settingsRef="dev.settings" transitive="true" />
+    <ivy:resolve file="war-ivy.xml" settingsRef="dev.settings" transitive="true" />
     <!-- Copy last resolved dependencies under tmp -->
     <ivy:retrieve pattern="${build.tmp.dir}/[module]-[revision].[ext]"/>
     <war warfile="${warfile}" webxml="${war.web.xml}">
