@@ -788,7 +788,7 @@ TODO - add support for multi-line values in globalConfigValue and defaultCOSValu
 </attr>
 
 <attr id="114" name="zimbraLastLogonTimestampFrequency" type="duration" cardinality="single" optionalIn="globalConfig">
-  <globalConfigValue>7d</globalConfigValue>
+  <globalConfigValue>1d</globalConfigValue>
   <desc>how often the zimbraLastLogonTimestamp is updated.  
         if set to 0, updating zimbraLastLogonTimestamp is completely disabled
   </desc>
@@ -9766,5 +9766,10 @@ TODO: delete them permanently from here
 <attr id="3090" name="zimbraPasswordBlockCommonEnabled" type="boolean" cardinality="single" optionalIn="account,cos" flags="accountInherited,domainAdminModifiable" since="9.0.0">
   <defaultCOSValue>FALSE</defaultCOSValue>
   <desc>block common keywords in password string</desc>
+</attr>
+
+<attr id="3091" name="carbonioChatsVideoServerRecordingEnabled" type="boolean" cardinality="single" optionalIn="account,cos,domain" flags="accountCosDomainInherited,accountInfo,domainInfo" since="9.0.0">
+  <defaultCOSValue>FALSE</defaultCOSValue>
+  <desc>Enable video server recording for Carbonio chats</desc>
 </attr>
 </attrs>
