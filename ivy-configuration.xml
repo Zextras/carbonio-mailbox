@@ -1,4 +1,5 @@
-<configurations>
+<configurations defaultconfmapping="default">
+  <conf name="default" description="Default"/>
   <conf name="compile" description="Compile dependencies"/>
   <conf name="runtime" description="Runtime dependencies" extends="compile"/>
   <conf name="test" description="Test dependencies" extends="runtime"/>
