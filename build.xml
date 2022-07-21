@@ -117,11 +117,13 @@
   </target>
 
   <target name="dist" depends="all">
+    <parallel>
     <ant dir="./native" target="dist" inheritAll="false"/>
     <ant dir="./common" target="dist" inheritAll="false"/>
     <ant dir="./soap" target="dist" inheritAll="false"/>
     <ant dir="./client" target="dist" inheritAll="false"/>
     <ant dir="./store" target="dist" inheritAll="false"/>
+    </parallel>
   </target>
 
   <property name="store.ext.patch.version" value="${zimbra.buildinfo.version}"/>
